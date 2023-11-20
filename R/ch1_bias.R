@@ -69,6 +69,7 @@ summary_by_segment_biased <- biased_data %>%
   summarise(conversion_rate = mean(conversion),
             spend_mean = mean(spend),
             count = n())
+#summary_by_segment_biased
 
 # (9) Rの関数であるt.testを使ってt検定を行う(Biased)
 ## (a)男性向けメールが配信されたグループの購買データを得る
@@ -83,4 +84,4 @@ no_mail_biased <- biased_data %>%
 
 ## (a)(b)の平均の差に対して有意差検定を実行
 rct_ttest_biased <- t.test(mens_mail_biased, no_mail_biased, var.equal = T)
-
+#rct_ttest_biased
