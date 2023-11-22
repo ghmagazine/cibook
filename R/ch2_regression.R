@@ -1,3 +1,5 @@
+#################### 2.介入効果を測るための回帰分析
+
 # (1) パッケージをインストールする（初回のみ）
 install.packages("broom")
 
@@ -33,8 +35,11 @@ biased_data <- male_df %>%
   filter( (treatment == 0 & random_number < obs_rate_c ) |
             (treatment == 1 & random_number < obs_rate_t) )
 
-# (6) バイアスのあるデータでの回帰分析
+########## ここまでの処理は前の章と同じ ##########
+
+##### (6) バイアスのあるデータでの回帰分析
 ## 回帰分析の実行
+# データと回帰式の指定、spent = β0 + β1*treatment + β2*history
 biased_reg <- lm(data = biased_data, formula = spend ~ treatment + history)
 
 ## 分析結果のレポート
@@ -42,20 +47,23 @@ summary(biased_reg)
 
 ## 推定されたパラメーターの取り出し
 biased_reg_coef <- tidy(biased_reg)
+#biased_reg_coef
 
 # (7) RCTデータでの回帰分析とバイアスのあるデータでの回帰分析の比較
 ## RCTデータでの単回帰
-rct_reg <- lm(data = male_df, formula = spend ~ treatment)
-rct_reg_coef <- tidy(rct_reg)
+rct_reg          <- lm(data = male_df,     formula = spend ~ treatment)
+rct_reg_coef     <- tidy(rct_reg)
 
 ## バイアスのあるデータでの単回帰
-nonrct_reg <- lm(data = biased_data, formula = spend ~ treatment)
-nonrct_reg_coef <- tidy(nonrct_reg)
+nonrct_reg       <- lm(data = biased_data, formula = spend ~ treatment)
+nonrct_reg_coef  <- tidy(nonrct_reg)
+# nonrct_reg_coef
 
 ## バイアスのあるデータでの重回帰
-nonrct_mreg <- lm(data = biased_data,
-                  formula = spend ~ treatment + recency + channel + history)
+nonrct_mreg      <- lm(data = biased_data,
+                       formula = spend ~ treatment + recency + channel + history)
 nonrct_mreg_coef <- tidy(nonrct_mreg)
+# nonrct_mreg_coef
 
 # (8) OVBの確認
 ## (a) history抜きの回帰分析とパラメーターの取り出し
@@ -95,9 +103,9 @@ alpha_1 - beta_1
 library(broom)
 
 ## モデル式のベクトルを用意
-formula_vec <- c(spend ~ treatment + recency + channel, # モデルA
-               spend ~ treatment + recency + channel + history, # モデルB
-               history ~ treatment + channel + recency) # モデルC
+formula_vec <- c(spend   ~ treatment + recency + channel, # モデルA
+                 spend   ~ treatment + recency + channel + history, # モデルB
+                 history ~ treatment + channel + recency) # モデルC
 
 ## formulaに名前を付ける
 names(formula_vec) <- paste("reg", LETTERS[1:3], sep ="_")
