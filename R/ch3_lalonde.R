@@ -1,5 +1,8 @@
 # (1) havenパッケージのインストール（初回のみ）
-install.packages("haven")
+#install.packages("haven")
+install.packages("MatchIt")
+install.packages("WeightIt")
+install.packages("cobalt")
 
 # (2) ライブラリの読み込み
 library("tidyverse")

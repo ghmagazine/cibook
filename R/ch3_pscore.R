@@ -78,7 +78,7 @@ IPW_result <- lm(data = biased_data,
 library("cobalt")
 
 ## マッチングしたデータでの共変量のバランス
-love.plot(m_near,
+love.plot(m_near, # 横軸に共変料の標準平均差の絶対値、縦軸に共変料の種類を表示
           threshold = .1)
 
 ## 重み付きデータでの共変量のバランス
